@@ -1,0 +1,26 @@
+Timestore
+
+keytool -genkey -v -keystore ~/key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key
+
+pass: Timestore
+fisrt-latName : David Huan
+organizational unit: Timebird
+organizational: Mobile
+City: Hanoi
+State: Ha Dong
+countri code : vi
+Is CN=David Huan, OU=Timebird, O=Mobile, L=Hanoi, ST=Ha Dong, C=vi correct?
+
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore Timestore-release-unsigned.apk timestore2021
+
+zipalign -v 4 Timestore-release-unsigned.apk TIMESTORE.apk
+
+keytool -exportcert -alias androiddebugkey -keystore ~/.android/debug.keystore | openssl sha1 -binary | openssl base64
+
+keytool -list -v -keystore {keystore_name} -alias {alias_name}
+
+keytool -exportcert -alias key -keystore key.jks | openssl sha1 -binary | openssl base64
+
+/Users/huantd0111/Android/sdk/build-tools/29.0.0/zipalign
+
+timestore-app % keytool -exportcert -alias key -keystore android/key.jks | openssl sha1 -binary | openssl base64

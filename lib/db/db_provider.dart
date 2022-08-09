@@ -13,39 +13,39 @@ class DBProvider {
   DBProvider._();
   static final DBProvider db = DBProvider._();
 
-  var todos = [
-    Todo(
-      "Vegetables",
-      parent: '1',
-    ),
-    Todo(
-      "Birthday gift",
-      parent: '1',
-    ),
-    Todo("Chocolate cookies", parent: '1', isCompleted: 1),
-    Todo(
-      "20 pushups",
-      parent: '2',
-    ),
-    Todo(
-      "Tricep",
-      parent: '2',
-    ),
-    Todo(
-      "15 burpees (3 sets)",
-      parent: '2',
-    ),
+  List<Todo> todos = [
+    // Todo(
+    //   "Vegetables",
+    //   parent: '1',
+    // ),
+    // Todo(
+    //   "Birthday gift",
+    //   parent: '1',
+    // ),
+    // Todo("Chocolate cookies", parent: '1', isCompleted: 1),
+    // Todo(
+    //   "20 pushups",
+    //   parent: '2',
+    // ),
+    // Todo(
+    //   "Tricep",
+    //   parent: '2',
+    // ),
+    // Todo(
+    //   "15 burpees (3 sets)",
+    //   parent: '2',
+    // ),
   ];
 
-  var tasks = [
-    Task('Shopping',
-        id: '1',
-        color: Colors.purple.value,
-        codePoint: Icons.shopping_cart.codePoint),
-    Task('Workout',
-        id: '2',
-        color: Colors.pink.value,
-        codePoint: Icons.fitness_center.codePoint),
+  List<Task> tasks = [
+    // Task('Shopping',
+    //     id: '1',
+    //     color: Colors.purple.value,
+    //     codePoint: Icons.shopping_cart.codePoint),
+    // Task('Workout',
+    //     id: '2',
+    //     color: Colors.pink.value,
+    //     codePoint: Icons.fitness_center.codePoint),
   ];
 
   Future<Database> get database async {

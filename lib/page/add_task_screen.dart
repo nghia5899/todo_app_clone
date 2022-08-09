@@ -27,7 +27,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     super.initState();
     newTask = '';
     taskColor = ColorUtils.defaultColors[0];
-    taskIcon = Icons.work;
+    taskIcon = Icons.task;
   }
 
   @override
@@ -54,6 +54,28 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Row(
+                  children: [
+                    ColorPickerBuilder(
+                        color: taskColor,
+                        onColorChanged: (newColor) {
+                          setState(() => taskColor = newColor);
+                          Navigator.of(context).pop();
+                        }),
+                    Container(
+                      width: 22.0,
+                    ),
+                    IconPickerBuilder(
+                        iconData: taskIcon,
+                        highlightColor: taskColor,
+                        action: (newIcon) {
+                          setState(() => taskIcon = newIcon);
+                          Navigator.of(context).pop();
+                        }
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16),
                 Text(
                   'Category will help you group related task!',
                   style: TextStyle(
@@ -79,32 +101,16 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   style: TextStyle(
                       color: Colors.black54,
                       fontWeight: FontWeight.w500,
-                      fontSize: 36.0),
+                      fontSize: 24.0),
                 ),
                 Container(
                   height: 26.0,
-                ),
-                Row(
-                  children: [
-                    ColorPickerBuilder(
-                        color: taskColor,
-                        onColorChanged: (newColor) =>
-                            setState(() => taskColor = newColor)),
-                    Container(
-                      width: 22.0,
-                    ),
-                    IconPickerBuilder(
-                        iconData: taskIcon,
-                        highlightColor: taskColor,
-                        action: (newIcon) =>
-                            setState(() => taskIcon = newIcon)),
-                  ],
                 ),
               ],
             ),
           ),
           floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
+              FloatingActionButtonLocation.endFloat,
           floatingActionButton: Builder(
             builder: (BuildContext context) {
               return FloatingActionButton.extended(

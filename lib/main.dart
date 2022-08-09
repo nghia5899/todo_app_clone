@@ -14,6 +14,7 @@ import 'package:todo/page/detail_screen.dart';
 import 'package:todo/component/todo_badge.dart';
 import 'package:todo/page/privacy_policy.dart';
 import 'package:todo/model/data/choice_card.dart';
+import 'package:todo/utils/splash.dart';
 
 void main() => runApp(MyApp());
 
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       title: 'Todo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
+        primarySwatch: Colors.orange,
         textTheme: TextTheme(
           headline1: TextStyle(fontSize: 32.0, fontWeight: FontWeight.w400),
           subtitle1: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w500),
@@ -34,7 +35,8 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: MyHomePage(title: ''),
+      //home: MyHomePage(title: ''),
+      home: Splash(),
     );
 
     return ScopedModel<TodoListModel>(
@@ -93,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage>
       var _tasks = model.tasks;
       var _todos = model.todos;
       var backgroundColor = _tasks.isEmpty || _tasks.length == _currentPageIndex
-          ? Colors.blueGrey
+          ? Colors.white38
           : ColorUtils.getColorFrom(id: _tasks[_currentPageIndex].color);
       if (!_isLoading) {
         // move the animation value towards upperbound only when loading is complete
@@ -139,6 +141,47 @@ class _MyHomePageState extends State<MyHomePage>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
+                        height: 300,
+                        key: _backdropKey,
+                        child: NotificationListener<ScrollNotification>(
+                          onNotification: (notification) {
+                            if (notification is ScrollEndNotification) {
+                              print(
+                                  "ScrollNotification = ${_pageController.page}");
+                              var currentPage =
+                                  _pageController.page?.round().toInt() ?? 0;
+                              if (_currentPageIndex != currentPage) {
+                                setState(() => _currentPageIndex = currentPage);
+                              }
+                            }
+                            return true;
+                          },
+                          child: PageView.builder(
+                            controller: _pageController,
+                            itemBuilder: (BuildContext context, int index) {
+                              if (index == _tasks.length) {
+                                return AddPageCard(
+                                  color: Colors.grey,
+                                );
+                              } else {
+                                return TaskCard(
+                                  backdropKey: _backdropKey,
+                                  color: ColorUtils.getColorFrom(
+                                      id: _tasks[index].color),
+                                  getHeroIds: widget._generateHeroIds,
+                                  getTaskCompletionPercent:
+                                      model.getTaskCompletionPercent,
+                                  getTotalTodos: model.getTotalTodosFrom,
+                                  task: _tasks[index],
+                                );
+                              }
+                            },
+                            itemCount: _tasks.length + 1,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Container(
                         margin: EdgeInsets.only(top: 0.0, left: 56.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -160,7 +203,7 @@ class _MyHomePageState extends State<MyHomePage>
                                   .textTheme
                                   .subtitle1
                                   ?.copyWith(
-                                      color: Colors.white.withOpacity(0.7)),
+                                  color: Colors.white.withOpacity(0.7)),
                             ),
                             Container(height: 16.0),
                             Text(
@@ -169,7 +212,7 @@ class _MyHomePageState extends State<MyHomePage>
                                   .textTheme
                                   .bodyText1
                                   ?.copyWith(
-                                      color: Colors.white.withOpacity(0.7)),
+                                  color: Colors.white.withOpacity(0.7)),
                             ),
                             Container(
                               height: 16.0,
@@ -185,46 +228,6 @@ class _MyHomePageState extends State<MyHomePage>
                             //   ),
                             // ),
                           ],
-                        ),
-                      ),
-                      Expanded(
-                        key: _backdropKey,
-                        flex: 1,
-                        child: NotificationListener<ScrollNotification>(
-                          onNotification: (notification) {
-                            if (notification is ScrollEndNotification) {
-                              print(
-                                  "ScrollNotification = ${_pageController.page}");
-                              var currentPage =
-                                  _pageController.page?.round().toInt() ?? 0;
-                              if (_currentPageIndex != currentPage) {
-                                setState(() => _currentPageIndex = currentPage);
-                              }
-                            }
-                            return true;
-                          },
-                          child: PageView.builder(
-                            controller: _pageController,
-                            itemBuilder: (BuildContext context, int index) {
-                              if (index == _tasks.length) {
-                                return AddPageCard(
-                                  color: Colors.blueGrey,
-                                );
-                              } else {
-                                return TaskCard(
-                                  backdropKey: _backdropKey,
-                                  color: ColorUtils.getColorFrom(
-                                      id: _tasks[index].color),
-                                  getHeroIds: widget._generateHeroIds,
-                                  getTaskCompletionPercent:
-                                      model.getTaskCompletionPercent,
-                                  getTotalTodos: model.getTotalTodosFrom,
-                                  task: _tasks[index],
-                                );
-                              }
-                            },
-                            itemCount: _tasks.length + 1,
-                          ),
                         ),
                       ),
                       Container(
@@ -321,30 +324,30 @@ class TaskCard extends StatelessWidget {
     var heroIds = getHeroIds(task);
     return GestureDetector(
       onTap: () {
-        final RenderBox? renderBox =
-            backdropKey.currentContext?.findRenderObject() as RenderBox;
-        var backDropHeight = renderBox?.size.height ?? 0;
-        var bottomOffset = 60.0;
-        var horizontalOffset = 52.0;
-        var topOffset = MediaQuery.of(context).size.height - backDropHeight;
-
-        var rect = RelativeRect.fromLTRB(
-            horizontalOffset, topOffset, horizontalOffset, bottomOffset);
+        // final RenderBox? renderBox =
+        //     backdropKey.currentContext?.findRenderObject() as RenderBox;
+        // var backDropHeight = renderBox?.size.height ?? 0;
+        // var bottomOffset = 60.0;
+        // var horizontalOffset = 52.0;
+        // var topOffset = MediaQuery.of(context).size.height - backDropHeight;
+        //
+        // var rect = RelativeRect.fromLTRB(
+        //     horizontalOffset, topOffset, horizontalOffset, bottomOffset);
         Navigator.push(
           context,
-          ScaleRoute(
-            rect: rect,
-            widget: DetailScreen(
-              taskId: task.id,
-              heroIds: heroIds,
-            ),
-          ),
-          // MaterialPageRoute(
-          //   builder: (context) => DetailScreen(
-          //         taskId: task.id,
-          //         heroIds: heroIds,
-          //       ),
+          // ScaleRoute(
+          //   rect: rect,
+          //   widget: DetailScreen(
+          //     taskId: task.id,
+          //     heroIds: heroIds,
+          //   ),
           // ),
+          MaterialPageRoute(
+            builder: (context) => DetailScreen(
+                  taskId: task.id,
+                  heroIds: heroIds,
+                ),
+          ),
         );
       },
       child: Card(

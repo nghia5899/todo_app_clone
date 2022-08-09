@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 
 class ColorUtils {
   static const List<Color> defaultColors = [
+    Colors.grey,
+    Colors.green,
+    Colors.lightGreen,
+    Colors.lime,
+    Colors.yellow,
+    Colors.amber,
+    Colors.orange,
+    Colors.deepOrange,
+    Colors.brown,
     Colors.blueGrey,
     Colors.red,
     Colors.pink,
@@ -12,15 +21,6 @@ class ColorUtils {
     Colors.lightBlue,
     Colors.cyan,
     Colors.teal,
-    Colors.green,
-    Colors.lightGreen,
-    Colors.lime,
-    Colors.yellow,
-    Colors.amber,
-    Colors.orange,
-    Colors.deepOrange,
-    Colors.brown,
-    Colors.grey,
   ];
 
   static Map<int, Color> _color = {
