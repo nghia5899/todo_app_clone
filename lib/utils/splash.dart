@@ -28,7 +28,7 @@ class _SplashState extends State<Splash> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      body: SafeArea(child: _buildBody(context)),
+      body: _buildBody(context),
     );
   }
 
@@ -47,13 +47,13 @@ class _SplashState extends State<Splash> {
         // ),
         SizedBox(
           width: double.infinity,
-          height: _size.height * .38,
+          height: MediaQuery.of(context).size.height,
           child: Stack(
             children: [
               Positioned.fill(
                 child: Image.asset(
-                  'assets/png/store_splash.png',
-                  fit: BoxFit.contain,
+                  'assets/png/background1.png',
+                  fit: BoxFit.fill,
                 ),
               ),
             ],
